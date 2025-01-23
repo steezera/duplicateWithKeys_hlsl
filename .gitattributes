@@ -1,0 +1,1 @@
+ply_files/point_cloud.ply filter=lfs diff=lfs merge=lfs -text
