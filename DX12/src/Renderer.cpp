@@ -1,5 +1,4 @@
-
-	void GRenderPath3DDetails::RenderGaussianSplatting(CommandList cmd)
+void GRenderPath3DDetails::RenderGaussianSplatting(CommandList cmd)
 	{
 		if (viewMain.visibleRenderables.empty())
 			return;
@@ -51,7 +50,6 @@
 		{
 			// We use a policy where the closer it is to the front, the higher the priority.
 			renderQueue.sort_opaque();
-			//renderQueue.sort_transparent();
 		}
 
 		uint32_t instanceCount = 0;
@@ -70,11 +68,8 @@
 			GGeometryComponent::GaussianSplattingBuffers& gs_buffers = geometry.GetGPrimBuffer(0)->gaussianSplattingBuffers;
 
 			{
-				//GGeometryComponent::GaussianSplattingBuffers& gs_buffers = geometry.GetGPrimBuffer(0)->gaussianSplattingBuffers;
-
 				gaussian_push.instanceIndex = batch.instanceIndex;
 				gaussian_push.geometryIndex = batch.geometryIndex;
-				//gaussian_push.materialIndex = material->m
 				gaussian_push.gaussian_SHs_index = device->GetDescriptorIndex(&gs_buffers.gaussianSHs, SubresourceType::SRV);
 				gaussian_push.gaussian_scale_opacities_index = device->GetDescriptorIndex(&gs_buffers.gaussianScale_Opacities, SubresourceType::SRV);
 				gaussian_push.gaussian_quaternions_index = device->GetDescriptorIndex(&gs_buffers.gaussianQuaterinions, SubresourceType::SRV);
@@ -86,21 +81,6 @@
 
 				gaussian_push.num_gaussians = geometry.GetPrimitive(0)->GetNumVertices();
 			}
-
-			//if (rtMain.IsValid() && rtLinearDepth.IsValid())
-			//{
-			//	device->BindUAV(&rtMain, 0, cmd);
-			//	device->BindUAV(&rtLinearDepth, 1, cmd, 0);
-			//}
-			//else
-			//{
-			//	device->BindUAV(&unbind, 0, cmd);
-			//	device->BindUAV(&unbind, 1, cmd);
-			//}
-
-			// t0, t1 SRV(rot, opacity, scale)
-			//device->BindResource(&gs_buffers.gaussianQuaterinions, 0, cmd); // t0
-			//device->BindResource(&gs_buffers.gaussianScale_Opacities, 1, cmd); //t1
 
 			if (rtMain.IsValid())
 			{
@@ -145,30 +125,10 @@
 				1,
 				cmd
 			);
-			//
-			//device->BindComputeShader(&rcommon::shaders[CSTYPE_GS_DUPLICATED_GAUSSIANS], cmd);
-			//device->Dispatch(
-			//	gs_tile_count.x,
-			//	gs_tile_count.y,
-			//	1,
-			//	cmd
-			//);
-			//
-			//device->BindComputeShader(&rcommon::shaders[CSTYPE_GS_SORT_DUPLICATED_GAUSSIANS], cmd);
-			//device->Dispatch(
-			//	gs_tile_count.x,
-			//	gs_tile_count.y,
-			//	1,
-			//	cmd
-			//);
 
 			device->BindUAV(&unbind, 0, cmd);
 			device->BindUAV(&unbind, 1, cmd);
 			device->BindUAV(&unbind, 2, cmd);
-
-			// unbind SRV??
-			//device->BindResource(&unbind, 0, cmd);
-			//device->BindResource(&unbind, 1, cmd);
 
 			barrierStack.push_back(GPUBarrier::Image(&rtMain, ResourceState::UNORDERED_ACCESS, rtMain.desc.layout));
 			barrierStack.push_back(GPUBarrier::Buffer(&gs_buffers.touchedTiles_0, ResourceState::UNORDERED_ACCESS, ResourceState::SHADER_RESOURCE));
