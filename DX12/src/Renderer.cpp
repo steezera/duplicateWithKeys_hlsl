@@ -1,3 +1,4 @@
+const int GS_TILESIZE = 16;
 void GRenderPath3DDetails::RenderGaussianSplatting(CommandList cmd)
 	{
 		if (viewMain.visibleRenderables.empty())
