@@ -21,4 +21,11 @@ struct GaussianPushConstants
 	uint materialIndex;
 };
 
+struct GaussianSortConstants 
+{
+	uint timestamp;
+	uint padding0;
+	uint padding1;
+	uint padding2;
+};
 #endif // SHADERINTEROP_GS_H
