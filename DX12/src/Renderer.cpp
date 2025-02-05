@@ -17,7 +17,6 @@ void GRenderPath3DDetails::RenderGaussianSplatting(CommandList cmd)
 
 	uint32_t filterMask = GMaterialComponent::FILTER_GAUSSIAN_SPLATTING;
 
-	// Note: the tile_count here must be valid whether the ViewResources was created or not!
 	XMUINT2 gs_tile_count = XMUINT2(
 		(rtMain.desc.width + GS_TILESIZE - 1) / GS_TILESIZE,
 		(rtMain.desc.height + GS_TILESIZE - 1) / GS_TILESIZE);
