@@ -3,7 +3,6 @@
 #include "./common.glsl"
 
 #extension GL_EXT_shader_explicit_arithmetic_types_int64 : enable
-//#extension GL_EXT_shader_explicit_arithmetic_types_float16 : enable
 
 layout (std430, set = 0, binding = 0) readonly buffer Vertices {
     VertexAttribute attr[];
@@ -42,12 +41,9 @@ void main() {
 
     uint ind = index == 0 ? 0 : prefixSum[index - 1];
 
-//    assert(attr[index].aabb.x < (800 + TILE_WIDTH - 1) / TILE_WIDTH && attr[index].aabb.y < (600 + TILE_HEIGHT - 1) / TILE_HEIGHT, "invalid aabb: %d %d %d %d\n", ivec4(attr[index].aabb));
-
     for (uint i = attr[index].aabb.x; i < attr[index].aabb.z; i++) {
         for (uint j = attr[index].aabb.y; j < attr[index].aabb.w; j++) {
             uint64_t tileIndex = i + j * tileX;
-//            assert(tileIndex <= 1900, "key <= 1900 %d", tileIndex);
 
             uint depthBits = floatBitsToUint(attr[index].depth);
             uint64_t k = (tileIndex << 32) | uint64_t(depthBits);

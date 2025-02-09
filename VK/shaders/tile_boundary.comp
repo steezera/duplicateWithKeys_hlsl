@@ -31,17 +31,10 @@ void main() {
     } else {
         uint prevKey = uint(keys[index - 1] >> 32);
         if (prevKey > key) {
-//            debugPrintfEXT("prevKey > key: %d > %d\n", prevKey, key);
         }
         if (key != prevKey) {
             boundaries[key * 2] = index;
             boundaries[prevKey * 2 + 1] = index;
-//            if (prevKey == 61) {
-//                debugPrintfEXT("end | key: %d, index: %d\n", key, index);
-//            }
-//            if (key == 61) {
-//                debugPrintfEXT("start | key: %d, index: %d\n", key, index);
-//            }
         }
     }
     if (index == numInstances - 1) {
